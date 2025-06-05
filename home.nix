@@ -9,6 +9,7 @@
     fastfetch
     feh
     rofi
+    kew
     vesktop
   ];
 
