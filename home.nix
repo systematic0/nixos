@@ -11,6 +11,9 @@
     rofi
     kew
     vesktop
+    fish
+    pipx
+    spotifyd
   ];
 
   # Import Spicetify-nix module
@@ -25,7 +28,6 @@
     enable = true;
     enabledCustomApps = with spicePkgs.apps; [
        lyricsPlus
-       marketplace
     ];
     enabledExtensions = with spicePkgs.extensions; [
 	adblockify

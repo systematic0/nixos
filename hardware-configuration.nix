@@ -14,17 +14,17 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/ba174752-5222-4df7-96db-04da6b0f78e1";
+    { device = "/dev/disk/by-uuid/6b89e992-27ed-44c2-bde9-70ee8151d13c";
       fsType = "ext4";
     };
 
-  fileSystems."/boot/efi" =
-    { device = "/dev/disk/by-uuid/DC63-D736";
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/43FB-07EA";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  swapDevices = [];
+  #swapDevices = [ ];
   zramSwap.enable = true;
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
@@ -35,8 +35,12 @@
   # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;  
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
-  
+  hardware= { 
+    cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+
+    };
+    };
 }

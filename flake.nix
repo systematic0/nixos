@@ -2,8 +2,8 @@
   description = "Nixos config flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    spicetify-nix.url = "github:Gerg-L/spicetify-nix/24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";

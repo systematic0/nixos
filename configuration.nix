@@ -11,24 +11,8 @@
     ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = false;
-  boot.loader={
-	efi = {
-	canTouchEfiVariables = true;
-	efiSysMountPoint = "/boot/efi";	
-};
-grub = {
-
-	efiSupport= true;
-	device = "nodev";
-};
-
-
-};
-
-
-
-
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "arc"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -63,41 +47,42 @@ grub = {
     packages = with pkgs; [];
   };
 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
-neovim
-wget
-kitty
-hyprland
-kdePackages.sddm
-hyprlock
-hyprlang
-pavucontrol
-brave
-gvfs
-udisks2
-fuse2
-git
-xfce.thunar
-xfce.thunar-volman
-fish
-ntp 
-waybar
-swww
-brightnessctl
-playerctl
-vscode
-pyprland
-unzip
-grim
-slurp
-wl-clipboard
-];
-  nixpkgs.config.allowUnfree = true;
-#  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  neovim
+  hyprland
+  hyprlock
+  hyprutils
+  hypridle
+  xfce.thunar
+  xfce.thunar-volman
+  kitty 
+  kdePackages.sddm
+  git
+  wget
+  gvfs
+  grim
+  slurp
+  pyprland
+  playerctl
+  brightnessctl
+  waybar
+  vscode
+  fuse2
+  swww
+  brave
+  wl-clipboard
+  cava
+  pavucontrol
+  unzip
+  ];
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -124,56 +109,44 @@ wl-clipboard
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
-#HYPRLAND
-programs.hyprland = {
-	enable = true;
-	xwayland.enable = true;
-};
-programs.dconf.profiles.user.databases = [
-  {
-    settings."org/gnome/desktop/interface" = {
-      gtk-theme = "Adwaita";
-      icon-theme = "Flat-Remix-Red-Dark";
-      font-name = "Noto Sans Medium 11";
-      document-font-name = "Noto Sans Medium 11";
-      monospace-font-name = "Noto Sans Mono Medium 11";
-    };
-  }
-];
+  #HYPRLAND
+  programs.hyprland  = {
+  enable = true;
+  xwayland.enable = true;
+  };
+  xdg.portal = {
+    enable = true;
+    extraPortals = [pkgs.xdg-desktop-portal-gtk];
+  };
 
-xdg.portal.enable = true;
-xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-hyprland];
-security.polkit.enable = true;
-#PIPEWIRE
-security.rtkit.enable = true;
-services.pipewire = {
-	enable = true;
-	alsa.enable = true;
-	pulse.enable = true;
-	jack.enable = true;
-};
+  #PIPEWIRE
+  security.rtkit.enable = true;
+  services.pipewire = {
+  enable = true;
+  pulse.enable = true;
+  alsa.enable = true;
+  jack.enable = true;
+  };
 
-#SDDM
-services.displayManager.sddm = {
-	enable = true;
-	wayland.enable = true;
+  #SDDM
+  services.displayManager.sddm = {
+  enable = true;
+  wayland.enable = true;
+  };
 
-};
+  #FONTS
+  fonts.fontDir.enable = true; #For flatpak packages
+  fonts.packages = with pkgs; [
+  nerd-fonts.fira-code
+  nerd-fonts.noto
+  nerd-fonts.symbols-only
+  noto-fonts-cjk-sans
+  noto-fonts-emoji
+  nerd-fonts.jetbrains-mono
+  ];
 
-#FONTS
-fonts.fontDir.enable = true; #For flatpak
-fonts.packages = with pkgs; [
-
-	nerd-fonts.fira-code
-	nerd-fonts.noto
-	nerd-fonts.symbols-only
-	noto-fonts-cjk-sans
-	noto-fonts-emoji
-	nerd-fonts.jetbrains-mono
-];
-#Flatpak
-services.flatpak.enable = true;
-#For Volumes
-services.gvfs.enable = true;
-services.udisks2.enable = true;
+  
+  #For Volumes
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
 }
