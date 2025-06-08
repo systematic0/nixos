@@ -14,18 +14,22 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/6b89e992-27ed-44c2-bde9-70ee8151d13c";
+    { device = "/dev/disk/by-uuid/07c834ee-a5f6-4e06-bf14-05209d4c2acb";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/43FB-07EA";
+    { device = "/dev/disk/by-uuid/9E87-3908";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  #swapDevices = [ ];
-  zramSwap.enable = true;
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/925522d9-daa7-4007-ad2e-0bbdd3614d1e";
+      fsType = "ext4";
+    };
+
+  swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
@@ -40,7 +44,6 @@
     bluetooth = {
       enable = true;
       powerOnBoot = true;
-
     };
     };
 }

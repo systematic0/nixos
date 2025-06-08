@@ -11,9 +11,20 @@
     ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
+  boot.loader = {
+    systemd-boot.enable = false;
+    efi = { 
+      canTouchEfiVariables = true;
+      efiSysMountPoint = "/boot";
+    };
+    grub = {
+      enable = true;
+      device = "nodev";
+      useOSProber = true;
+      efiSupport = true;
+      #efiInstallAsRemovable = true;
+    };
+  };
   networking.hostName = "arc"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -149,4 +160,8 @@
   #For Volumes
   services.gvfs.enable = true;
   services.udisks2.enable = true;
+
+  # in configuration.nix or your flake
+boot.kernelPackages = pkgs.linuxPackages_latest;  # or another appropriate variant
+
 }
